@@ -11,7 +11,8 @@
       <h1>ADmin</h1>
       <h3>Create mysql</h3>
       <form id="create-table-form">
-        <label for="table-name">Mysql table name></label>
+        <label for="tableName">Mysql table name</label>
+        <input type="text" id="tableName" />
         <input type="submit" />
       </form>
     </section>
@@ -37,7 +38,7 @@
         return fetch('http://localhost:5000/api/admin/createtable', {
           method: 'POST',
           headers: {
-            'Content- Type': 'application/json',
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({ tableName: e.target.tableName.value }),
         });
