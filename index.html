@@ -34,7 +34,13 @@
       createTableFormElement.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        return fetch('http://localhost:5000/api/admin/createtable');
+        return fetch('http://localhost:5000/api/admin/createtable', {
+          method: 'POST',
+          headers: {
+            'Content- Type': 'application/json',
+          },
+          body: JSON.stringify({ tableName: e.target.tableName.value }),
+        });
       });
 
       //add-car-form
