@@ -4,14 +4,14 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>mysql</title>
+    <title>Document</title>
   </head>
   <body>
     <section>
-      <h1>ADmin</h1>
-      <h3>Create mysql</h3>
+      <h1>ADMIN</h1>
+      <h3>Create MySql table</h3>
       <form id="create-table-form">
-        <label for="tableName">Mysql table name</label>
+        <label for="tableName">MySql table name</label>
         <input type="text" id="tableName" />
         <input type="submit" />
       </form>
@@ -19,10 +19,9 @@
     <section>
       <h3>Add car to cars table</h3>
       <form id="add-car-form">
-        <label for="make">Make</label><br />
+        <label for="make">Make :</label>
         <input type="text" id="make" /><br />
-
-        <label for="model">Model</label><br />
+        <label for="model">Model:</label>
         <input type="text" id="model" /><br />
         <input type="submit" />
       </form>
@@ -31,14 +30,21 @@
       <h3>Cars from DB</h3>
       <div id="cars-output"></div>
     </section>
+    <section>
+      <h3>Car from DB</h3>
+      <form id="get-car-form">
+        <label for="id">ID</label>
+        <select name="carId" id="carIdSelect"></select>
+        <div id="oneoutput"></div>
+        <input type="submit" />
+      </form>
+    </section>
     <script>
-      //create table form
+      // Create table form
       const createTableFormElement =
         document.querySelector('#create-table-form');
-
       createTableFormElement.addEventListener('submit', (e) => {
         e.preventDefault();
-
         return fetch('http://localhost:5000/api/admin/createtable', {
           method: 'POST',
           headers: {
@@ -47,18 +53,14 @@
           body: JSON.stringify({ tableName: e.target.tableName.value }),
         });
       });
-
-      //add-car-form
+      // Add car form
       const addCarFormElement = document.querySelector('#add-car-form');
-
       addCarFormElement.addEventListener('submit', (e) => {
         e.preventDefault();
-
         const car = {
           make: e.target.make.value,
           model: e.target.model.value,
         };
-
         return fetch('http://localhost:5000/api/cars', {
           method: 'POST',
           headers: {
@@ -67,27 +69,58 @@
           body: JSON.stringify(car),
         });
       });
-
-      //GET cars
-
+      // Get cars
       document.addEventListener('DOMContentLoaded', () => {
         return fetch('http://localhost:5000/api/cars')
           .then((res) => res.json())
           .then((data) => {
-            // console.log(data);
             document.querySelector('#cars-output').innerHTML = data.reduce(
               (total, item) => {
                 total += `
-                <ul>
-                  <li>${item.make}</li>
-                  <li>${item.model}</li>
-                  </ul>`;
+                      <ul>
+                        <li>ID: ${item.id}</li>
+                        <li>MAKE: ${item.make}</li>
+                        <li>MODEL: ${item.model}</li>
+                      </ul>
+                      `;
                 return total;
               },
               ''
             );
+            document.querySelector('#carIdSelect').innerHTML = data.reduce(
+              (total, item) => {
+                total += `
+                    <option value="${item.id}">${item.id}: ${item.make}</option>
+                    `;
+                return total;
+              },
+              ''
+            );
+            getCarSelectValue = data[0].id;
+            alert(getCarSelectValue);
           });
       });
+      // Get car
+      let getCarSelectValue;
+      document.querySelector('#carIdSelect').addEventListener('change', (e) => {
+        getCarSelectValue = +e.target.value;
+        console.log(getCarSelectValue);
+      });
+      const getCarFormElement = document.querySelector('#get-car-form');
+      getCarFormElement.addEventListener('submit', (e) => {
+        e.preventDefault();
+        return fetch('http://localhost:5000/api/cars/' + getCarSelectValue)
+          .then((res) => res.json())
+          .then((data) => {
+            // alert(getCarSelectValue);
+            oneoutput = document.querySelector('#oneoutput');
+
+            data.reduce((total, item) => {
+              console.log('id' + item.id);
+            }, '');
+          });
+      });
+      //delete
     </script>
   </body>
 </html>
