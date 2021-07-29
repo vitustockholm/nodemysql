@@ -16,11 +16,22 @@ app.use(cors());
 app.use(express.json());
 // Routes
 // GET
-
+// -- get all cars
 app.get('/api/cars', (req, res) => {
   let query = connection.query('SELECT * FROM cars', (err, data) => {
     res.json(data);
   });
+});
+// -- get single car based on ID
+app.get('/api/cars/:id', (req, res) => {
+  // let carId = req.params.id;
+  console.log('reqparamsid' + req.params.id);
+  let query = connection.query(
+    `SELECT * FROM cars WHERE ID = ${req.params.id}`,
+    (error, data) => {
+      res.json(data);
+    }
+  );
 });
 // POST
 // -- create table
@@ -36,10 +47,21 @@ app.post('/api/admin/createtable', (req, res) => {
 // -- add car to cars table
 app.post('/api/cars', (req, res) => {
   let car = req.body;
-
   let query = connection.query('INSERT INTO cars SET ?', car, () => {
-    console.log('Car added');
     res.send('Car added');
   });
+});
+// DELETE
+// -- delete single car basid on ID
+let deletecarId;
+app.delete('/api/cars/:id', (req, res) => {
+  let deletecarId = req.params.id;
+
+  let query = connection.query(
+    `DELETE FROM cars WHERE ID = ${carId}`,
+    (error, data) => {
+      res.json({ deleteStatus: 'success' });
+    }
+  );
 });
 app.listen(5000);
