@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mysql</title>
+  </head>
+  <body>
+    <form>
+      <label for="make">Make</label><br />
+      <input type="text" id="make" /><br />
+
+      <label for="model">Model</label><br />
+      <input type="text" id="model" /><br />
+      <input type="submit" />
+    </form>
+    <script>
+      const formElement = document.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const car = {
+          make: e.target.make.value,
+          model: e.target.model.value,
+        };
+
+        return fetch('http://localhost:5000/api/cars', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(car),
+        });
+      });
+    </script>
+  </body>
+</html>
