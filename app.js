@@ -16,6 +16,12 @@ app.use(cors());
 app.use(express.json());
 // Routes
 // GET
+
+app.get('/api/cars', (req, res) => {
+  let query = connection.query('SELECT * FROM cars', (err, data) => {
+    res.json(data);
+  });
+});
 // POST
 // -- create table
 app.post('/api/admin/createtable', (req, res) => {
@@ -30,6 +36,7 @@ app.post('/api/admin/createtable', (req, res) => {
 // -- add car to cars table
 app.post('/api/cars', (req, res) => {
   let car = req.body;
+
   let query = connection.query('INSERT INTO cars SET ?', car, () => {
     console.log('Car added');
     res.send('Car added');
