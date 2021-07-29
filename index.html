@@ -7,14 +7,25 @@
     <title>mysql</title>
   </head>
   <body>
-    <form>
-      <label for="make">Make</label><br />
-      <input type="text" id="make" /><br />
+    <section>
+      <h1>ADmin</h1>
+      <h3>Create mysql</h3>
+      <form>
+        <label for="table-name">Mysql table name></label>
+        <input type="submit" />
+      </form>
+    </section>
+    <section>
+      <h3>Add car to cars table</h3>
+      <form id="add-car-form">
+        <label for="make">Make</label><br />
+        <input type="text" id="make" /><br />
 
-      <label for="model">Model</label><br />
-      <input type="text" id="model" /><br />
-      <input type="submit" />
-    </form>
+        <label for="model">Model</label><br />
+        <input type="text" id="model" /><br />
+        <input type="submit" />
+      </form>
+    </section>
     <script>
       const formElement = document.addEventListener('submit', (e) => {
         e.preventDefault();
