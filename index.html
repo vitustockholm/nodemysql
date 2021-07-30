@@ -39,6 +39,14 @@
         <input type="submit" />
       </form>
     </section>
+    <section>
+      <h3>Car To Delete</h3>
+      <form id="delete-car-form">
+        <label for="id">ID</label>
+        <select name="deletecarId" id="carIdToDelete"></select>
+        <input type="submit" />
+      </form>
+    </section>
     <script>
       // Create table form
       const createTableFormElement =
@@ -77,12 +85,12 @@
             document.querySelector('#cars-output').innerHTML = data.reduce(
               (total, item) => {
                 total += `
-                      <ul>
-                        <li>ID: ${item.id}</li>
-                        <li>MAKE: ${item.make}</li>
-                        <li>MODEL: ${item.model}</li>
-                      </ul>
-                      `;
+                                   <ul>
+                                     <li>ID: ${item.id}</li>
+                                     <li>MAKE: ${item.make}</li>
+                                     <li>MODEL: ${item.model}</li>
+                                   </ul>
+                                   `;
                 return total;
               },
               ''
@@ -90,37 +98,84 @@
             document.querySelector('#carIdSelect').innerHTML = data.reduce(
               (total, item) => {
                 total += `
-                    <option value="${item.id}">${item.id}: ${item.make}</option>
-                    `;
+                                 <option value="${item.id}">${item.id}: ${item.make}</option>
+                                 `;
                 return total;
               },
               ''
             );
             getCarSelectValue = data[0].id;
-            alert(getCarSelectValue);
+            // alert(getCarSelectValue);
+
+            getDeleteId = data[0].id;
+            // deleteButtonElement.addEventListener('click', delete)
           });
       });
       // Get car
       let getCarSelectValue;
       document.querySelector('#carIdSelect').addEventListener('change', (e) => {
         getCarSelectValue = +e.target.value;
-        console.log(getCarSelectValue);
+
+        console.log(
+          '111eilute index.htmle: getCarSelectValue: ' + getCarSelectValue
+        );
       });
+
+      //--get single car based on id
+
       const getCarFormElement = document.querySelector('#get-car-form');
+
       getCarFormElement.addEventListener('submit', (e) => {
         e.preventDefault();
+
         return fetch('http://localhost:5000/api/cars/' + getCarSelectValue)
           .then((res) => res.json())
           .then((data) => {
             // alert(getCarSelectValue);
-            oneoutput = document.querySelector('#oneoutput');
+            document.querySelector('#oneoutput').innerHTML = data.reduce(
+              (total, item) => {
+                total += `
+                                   <form id="delete"><ul>
+                                     <li>ID: ${item.id}</li>
+                                     <li>MAKE: ${item.make}</li>
+                                     <li>MODEL: ${item.model}</li>
+                                     <button data-id="2" class="button">button</button>
+             <input type="submit" id="${item.id}" class="delete" value="delete" data-id="1">
 
-            data.reduce((total, item) => {
-              console.log('id' + item.id);
-            }, '');
+                                   </ul></form>
+                                   `;
+                console.log('item.id: po fetcho   ' + item.id);
+                console.log('getCarSelectValue     ' + getCarSelectValue);
+                // const deleteid = document.querySelector('#delete');
+                // console.log('9991' + deleteid.dataset.id);
+
+                return total;
+              },
+              ''
+            );
           });
       });
       //delete
+      let carIdToDelete;
+      document
+        .querySelector('#carIdToDelete')
+        .addEventListener('submit', (e) => {
+          carIdToDelete = +e.target.value;
+          console.log(e.target.value);
+        });
+      const deleteCarForm = document.querySelector('#delete-car-form');
+      deleteCarForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        return fetch('http://localhost:5000/api/cars/' + getCarSelectValue, {
+          method: 'DELETE',
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            location.reload();
+          });
+      });
     </script>
   </body>
 </html>

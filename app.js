@@ -24,7 +24,7 @@ app.get('/api/cars', (req, res) => {
 });
 // -- get single car based on ID
 app.get('/api/cars/:id', (req, res) => {
-  // let carId = req.params.id;
+  let carId = req.params.id;
   console.log('reqparamsid' + req.params.id);
   let query = connection.query(
     `SELECT * FROM cars WHERE ID = ${req.params.id}`,
@@ -56,6 +56,7 @@ app.post('/api/cars', (req, res) => {
 let deletecarId;
 app.delete('/api/cars/:id', (req, res) => {
   let deletecarId = req.params.id;
+  console.log('deletecarid:' + deletecarId);
 
   let query = connection.query(
     `DELETE FROM cars WHERE ID = ${carId}`,
