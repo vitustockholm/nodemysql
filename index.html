@@ -104,6 +104,15 @@
               },
               ''
             );
+            document.querySelector('#carIdToDelete').innerHTML = data.reduce(
+              (total, item) => {
+                total += `
+                                 <option value="${item.id}">${item.id}: ${item.make}</option>
+                                 `;
+                return total;
+              },
+              ''
+            );
             getCarSelectValue = data[0].id;
             // alert(getCarSelectValue);
 
@@ -140,14 +149,7 @@
                                      <li>MAKE: ${item.make}</li>
                                      <li>MODEL: ${item.model}</li>
                                      <button data-id="2" class="button">button</button>
-             <input type="submit" id="${item.id}" class="delete" value="delete" data-id="1">
-
-                                   </ul></form>
-                                   `;
-                console.log('item.id: po fetcho   ' + item.id);
-                console.log('getCarSelectValue     ' + getCarSelectValue);
-                // const deleteid = document.querySelector('#delete');
-                // console.log('9991' + deleteid.dataset.id);
+             <input type="submit" id="${item.id}" class="delete" value="delete" data-id="1"></ul></form>`;
 
                 return total;
               },
@@ -156,26 +158,26 @@
           });
       });
       //delete
-      let carIdToDelete;
-      document
-        .querySelector('#carIdToDelete')
-        .addEventListener('submit', (e) => {
-          carIdToDelete = +e.target.value;
-          console.log(e.target.value);
-        });
-      const deleteCarForm = document.querySelector('#delete-car-form');
-      deleteCarForm.addEventListener('submit', (e) => {
-        e.preventDefault();
+      // let carIdToDelete;
+      // document
+      //   .querySelector('#carIdToDelete')
+      //   .addEventListener('submit', (e) => {
+      //     carIdToDelete = +e.target.value;
+      //     console.log(e.target.value);
+      //   });
+      // const deleteCarForm = document.querySelector('#delete-car-form');
+      // deleteCarForm.addEventListener('submit', (e) => {
+      //   e.preventDefault();
 
-        return fetch('http://localhost:5000/api/cars/' + getCarSelectValue, {
-          method: 'DELETE',
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log(data);
-            location.reload();
-          });
-      });
+      //   return fetch('http://localhost:5000/api/cars/' + getCarSelectValue, {
+      //     method: 'DELETE',
+      //   })
+      //     .then((res) => res.json())
+      //     .then((data) => {
+      //       console.log(data);
+      //       location.reload();
+      //     });
+      // });
     </script>
   </body>
 </html>

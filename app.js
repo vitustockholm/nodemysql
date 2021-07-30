@@ -8,7 +8,12 @@ let connection = mysql.createConnection({
   password: '',
   database: 'my_first_db',
 });
-connection.connect(() => console.log('Connected MySQL...'));
+
+connection.connect(() => console.log('Connected Mysql'));
+// connection.connect((err) => {
+//   if (err) throw err;
+//   console.log('Connected MySQL...');
+// });
 // Starting express app
 let app = express();
 // -- middlewares
@@ -51,6 +56,31 @@ app.post('/api/cars', (req, res) => {
     res.send('Car added');
   });
 });
+
+//PUT
+//--update single car based on id
+
+// app.put('/api/cars/:id', (req, res) => {
+//   console.log(req.body);
+//   const { ID, make, model } = req.body;
+//   let newData;
+
+//   if (make && model) {
+//     newData = `make =  ${make} model = ${model}`;
+//   } else if (make) {
+//     newData = `make = ${make}`;
+//   } else if (model) {
+//     newData = `model = ${model}`;
+//   }
+
+//   let query = connection.query(
+//     `UPDATE cars SET ${newData} WHERE ID = ${ID}`,
+//     (err, data) => {
+//       if (err) res.json(err);
+//       res.json(data);
+//     }
+//   );
+// });
 // DELETE
 // -- delete single car basid on ID
 let deletecarId;
