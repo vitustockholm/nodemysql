@@ -60,39 +60,52 @@ app.post('/api/cars', (req, res) => {
 //PUT
 //--update single car based on id
 
-// app.put('/api/cars/:id', (req, res) => {
-//   console.log(req.body);
-//   const { ID, make, model } = req.body;
-//   let newData;
+app.put('/api/cars/:id', (req, res) => {
+  console.log(req.body);
+  const { ID, make, model } = req.body;
+  let newData;
 
-//   if (make && model) {
-//     newData = `make =  ${make} model = ${model}`;
-//   } else if (make) {
-//     newData = `make = ${make}`;
-//   } else if (model) {
-//     newData = `model = ${model}`;
-//   }
-
-//   let query = connection.query(
-//     `UPDATE cars SET ${newData} WHERE ID = ${ID}`,
-//     (err, data) => {
-//       if (err) res.json(err);
-//       res.json(data);
-//     }
-//   );
-// });
-// DELETE
-// -- delete single car basid on ID
-let deletecarId;
-app.delete('/api/cars/:id', (req, res) => {
-  let deletecarId = req.params.id;
-  console.log('deletecarid:' + deletecarId);
+  if (make && model) {
+    newData = `make =  ${make} model = ${model}`;
+  } else if (make) {
+    newData = `make = ${make}`;
+  } else if (model) {
+    newData = `model = ${model}`;
+  }
 
   let query = connection.query(
-    `DELETE FROM cars WHERE ID = ${carId}`,
-    (error, data) => {
-      res.json({ deleteStatus: 'success' });
+    `UPDATE cars SET ${newData} WHERE ID = ${ID}`,
+    (err, data) => {
+      if (err) res.json(err);
+      res.json(data);
     }
   );
 });
+// DELETE
+// -- delete single car basid on ID
+let carId;
+app.delete('/api/cars/:id', (req, res) => {
+  let carId = req.params.id;
+  console.log('deletecarid:' + carId);
+
+  // let query = connection.query(
+  //   `DELETE FROM cars WHERE ID = ${carId}`,
+  //   (error, data) => {
+  //     res.json({ deleteStatus: 'success' });
+  //   }
+  // );
+
+  ///
+
+  let query = `DELETE FROM cars WHERE ID = ${carId}`;
+  connection.query(query, (err, rows) => {
+    if (err) throw err;
+
+    console.log('Car deleted' + carId);
+  });
+});
+
+///
+
+/////
 app.listen(5000);
